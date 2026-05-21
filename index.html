@@ -2,772 +2,1073 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gerontology Nursing Exam Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXAM GATE | Gerontology Nursing Portal</title>
 <style>
-body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f9; margin: 0; padding: 20px; }
-.container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-h1 { text-align: center; color: #2c3e50; border-bottom: 4px solid #3498db; padding-bottom: 10px; }
-.nav-tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
-.tab-btn { padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; background: #e0e6ed; font-weight: bold; transition: 0.3s; }
-.tab-btn.active { background: #3498db; color: white; }
-.exam-section { display: none; }
-.exam-section.active { display: block; }
-.question-card { margin-bottom: 25px; padding: 20px; border-left: 5px solid #3498db; background: #fdfdfd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.question-text { font-size: 1.1em; font-weight: 600; color: #34495e; margin-bottom: 15px; }
-.option { padding: 8px; margin: 6px 0; border: 2px solid #eaeff2; border-radius: 8px; cursor: pointer; }
-.option:hover { background: #f0f7ff; border-color: #3498db; }
-.correct { background-color: #d4edda !important; border-color: #28a745 !important; }
-.wrong { background-color: #f8d7da !important; border-color: #dc3545 !important; }
-.meter { text-align: center; font-weight: bold; margin-bottom: 20px; }
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --neon-cyan: #00f5d4;
+  --neon-pink: #ff006e;
+  --neon-purple: #8338ec;
+  --neon-blue: #3a86ff;
+  --dark-bg: #0a0a0f;
+  --card-bg: rgba(20, 20, 35, 0.7);
+  --glass: rgba(255, 255, 255, 0.03);
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--dark-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #e0e0e0;
+}
+
+/* Animated background particles */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 15s infinite;
+  box-shadow: 0 0 10px var(--neon-cyan);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* Grid overlay */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 245, 212, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 212, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.system-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 8px;
+  color: var(--neon-cyan);
+  opacity: 0.6;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.glitch-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  position: relative;
+  color: #fff;
+  letter-spacing: 4px;
+  text-shadow: 
+    0 0 20px rgba(255, 0, 110, 0.5),
+    0 0 40px rgba(255, 0, 110, 0.3),
+    0 0 60px rgba(255, 0, 110, 0.1);
+  animation: glitch 3s infinite;
+}
+
+.glitch-title::before,
+.glitch-title::after {
+  content: 'EXAM GATE';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-title::before {
+  color: var(--neon-cyan);
+  animation: glitch-1 2s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  transform: translate(-2px, -2px);
+}
+
+.glitch-title::after {
+  color: var(--neon-purple);
+  animation: glitch-2 2s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  transform: translate(2px, 2px);
+}
+
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-5px, 2px); }
+  94% { transform: translate(5px, -2px); }
+  96% { transform: translate(-3px, 0); }
+}
+
+@keyframes glitch-1 {
+  0%, 100% { transform: translate(-2px, -2px); }
+  50% { transform: translate(2px, 1px); }
+}
+
+@keyframes glitch-2 {
+  0%, 100% { transform: translate(2px, 2px); }
+  50% { transform: translate(-2px, -1px); }
+}
+
+.subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+/* Progress bar */
+.progress-container {
+  width: 300px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 30px auto;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+  width: 0%;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+/* Stats display */
+.stats-display {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.stat-box {
+  background: var(--glass);
+  border: 1px solid rgba(0, 245, 212, 0.2);
+  padding: 15px 30px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 245, 212, 0.1), transparent);
+  animation: scan 3s infinite;
+}
+
+@keyframes scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 20px rgba(0, 245, 212, 0.5);
+}
+
+/* Module cards - 3D buttons */
+.modules-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.module-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
+  opacity: 0.8;
+  transition: width 0.3s ease;
+}
+
+.module-card:hover::before {
+  width: 100%;
+  opacity: 0.1;
+}
+
+.module-card:hover {
+  transform: translateX(10px) translateY(-5px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(0, 245, 212, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: rgba(0, 245, 212, 0.3);
+}
+
+.module-card.active {
+  transform: translateX(10px);
+  box-shadow: 
+    0 0 40px rgba(0, 245, 212, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: var(--neon-cyan);
+}
+
+.module-card.active::before {
+  width: 100%;
+  opacity: 0.15;
+  background: linear-gradient(90deg, var(--neon-cyan), transparent);
+}
+
+.module-content {
+  display: flex;
+  align-items: center;
+  padding: 25px 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.module-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-right: 25px;
+  background: rgba(0, 245, 212, 0.1);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.2);
+  transition: all 0.3s ease;
+}
+
+.module-card:hover .module-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 30px rgba(0, 245, 212, 0.4);
+}
+
+.module-info {
+  flex: 1;
+}
+
+.module-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.module-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.module-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(0, 245, 212, 0.6);
+  margin-right: 20px;
+}
+
+.module-arrow {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.module-card:hover .module-arrow {
+  color: var(--neon-cyan);
+  transform: translateX(5px);
+  text-shadow: 0 0 20px var(--neon-cyan);
+}
+
+/* Exam section */
+.exam-section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.exam-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Question cards */
+.question-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 25px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.question-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+  opacity: 0.5;
+}
+
+.question-card:hover {
+  border-color: rgba(0, 245, 212, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.question-counter {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.question-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.options-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.option {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 18px 25px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 245, 212, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.option:hover::before {
+  left: 100%;
+}
+
+.option:hover {
+  background: rgba(0, 245, 212, 0.05);
+  border-color: var(--neon-cyan);
+  color: #fff;
+  transform: translateX(5px);
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.1);
+}
+
+.option.correct {
+  background: rgba(0, 245, 212, 0.15) !important;
+  border-color: var(--neon-cyan) !important;
+  color: var(--neon-cyan) !important;
+  box-shadow: 0 0 30px rgba(0, 245, 212, 0.3);
+  animation: pulse-correct 1s ease;
+}
+
+.option.wrong {
+  background: rgba(255, 0, 110, 0.15) !important;
+  border-color: var(--neon-pink) !important;
+  color: var(--neon-pink) !important;
+  box-shadow: 0 0 30px rgba(255, 0, 110, 0.3);
+  animation: shake 0.5s ease;
+}
+
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Back button */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  color: var(--neon-cyan);
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.back-btn:hover {
+  background: rgba(0, 245, 212, 0.1);
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.2);
+  transform: translateX(-5px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple));
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .module-content {
+    padding: 20px;
+  }
+  .module-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+  .stats-display {
+    gap: 15px;
+  }
+  .stat-box {
+    padding: 10px 20px;
+  }
+}
 </style>
+<base target="_blank">
 </head>
 <body>
 
+<div class="particles" id="particles"></div>
+<div class="grid-overlay"></div>
+
 <div class="container">
-<h1>Gerontology Nursing Exam Portal</h1>
+  <div class="header">
+    <div class="system-text">// SYSTEM ACCESS GRANTED</div>
+    <h1 class="glitch-title">EXAM GATE</h1>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="subtitle">SELECT YOUR MODULE TO BEGIN</div>
+  </div>
 
-<div class="nav-tabs">
-  <button class="tab-btn active" onclick="switchTab('lecture1', this)">Lecture 1: Overview of Gerontology</button>
-  <button class="tab-btn" onclick="switchTab('lecture2', this)">Lecture 2: Common Aging Changes</button>
-  <button class="tab-btn" onclick="switchTab('lecture3', this)">Lecture 3: Environmental Health & Safety</button>
-  <button class="tab-btn" onclick="switchTab('lecture4', this)">Lecture 4: Family Caregiving</button>
-  <button class="tab-btn" onclick="switchTab('lecture5', this)">Lecture 5: Communication (Special Needs)</button>
-  <button class="tab-btn" onclick="switchTab('lecture6', this)">Lecture 6: Elderly Abuse</button>
-  <button class="tab-btn" onclick="switchTab('lecture7', this)">Lecture 7: Common Health Problems</button>
-</div>
+  <div class="stats-display" id="statsDisplay" style="display:none;">
+    <div class="stat-box">
+      <div class="stat-label">Answered</div>
+      <div class="stat-value" id="answered">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Correct</div>
+      <div class="stat-value" id="correct">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Accuracy</div>
+      <div class="stat-value" id="accuracy">0%</div>
+    </div>
+  </div>
 
-<div class="meter">
-  <span id="answered">Answered: 0</span> | 
-  <span id="correct">Correct: 0</span>
-</div>
+  <!-- Module Selection -->
+  <div id="moduleSelect" class="modules-grid">
+    <div class="module-card" onclick="startExam('lecture1', this)">
+      <div class="module-content">
+        <div class="module-icon">&#128100;</div>
+        <div class="module-info">
+          <div class="module-title">Gerontology</div>
+          <div class="module-desc">Geriatric Care &middot; MCQ</div>
+        </div>
+        <div class="module-number">01</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
 
-<div id="lecture1" class="exam-section active"></div>
-<div id="lecture2" class="exam-section"></div>
-<div id="lecture3" class="exam-section"></div>
-<div id="lecture4" class="exam-section"></div>
-<div id="lecture5" class="exam-section"></div>
-<div id="lecture6" class="exam-section"></div>
-<div id="lecture7" class="exam-section"></div>
+    <div class="module-card" onclick="startExam('lecture2', this)">
+      <div class="module-content">
+        <div class="module-icon" style="border-color: rgba(255,0,110,0.3); box-shadow: 0 0 20px rgba(255,0,110,0.2);">&#128167;</div>
+        <div class="module-info">
+          <div class="module-title">Common Aging Changes</div>
+          <div class="module-desc" style="color: rgba(255,0,110,0.6);">Aging Physiology &middot; MCQ</div>
+        </div>
+        <div class="module-number" style="color: rgba(255,0,110,0.6);">02</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="startExam('lecture3', this)">
+      <div class="module-content">
+        <div class="module-icon" style="border-color: rgba(131,56,236,0.3); box-shadow: 0 0 20px rgba(131,56,236,0.2);">&#9877;</div>
+        <div class="module-info">
+          <div class="module-title">Environmental Health</div>
+          <div class="module-desc" style="color: rgba(131,56,236,0.6);">Safety & Hazards &middot; MCQ</div>
+        </div>
+        <div class="module-number" style="color: rgba(131,56,236,0.6);">03</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="startExam('lecture4', this)">
+      <div class="module-content">
+        <div class="module-icon" style="border-color: rgba(58,134,255,0.3); box-shadow: 0 0 20px rgba(58,134,255,0.2);">&#9829;</div>
+        <div class="module-info">
+          <div class="module-title">Family Caregiving</div>
+          <div class="module-desc" style="color: rgba(58,134,255,0.6);">Support & Burnout &middot; MCQ</div>
+        </div>
+        <div class="module-number" style="color: rgba(58,134,255,0.6);">04</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="startExam('lecture5', this)">
+      <div class="module-content">
+        <div class="module-icon" style="border-color: rgba(0,245,212,0.3); box-shadow: 0 0 20px rgba(0,245,212,0.2);">&#128172;</div>
+        <div class="module-info">
+          <div class="module-title">Communication</div>
+          <div class="module-desc" style="color: rgba(0,245,212,0.6);">Special Needs &middot; MCQ</div>
+        </div>
+        <div class="module-number" style="color: rgba(0,245,212,0.6);">05</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="startExam('lecture6', this)">
+      <div class="module-content">
+        <div class="module-icon" style="border-color: rgba(255,0,110,0.3); box-shadow: 0 0 20px rgba(255,0,110,0.2);">&#128737;</div>
+        <div class="module-info">
+          <div class="module-title">Elderly Abuse</div>
+          <div class="module-desc" style="color: rgba(255,0,110,0.6);">Protection & Reporting &middot; MCQ</div>
+        </div>
+        <div class="module-number" style="color: rgba(255,0,110,0.6);">06</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="startExam('lecture7', this)">
+      <div class="module-content">
+        <div class="module-icon" style="border-color: rgba(131,56,236,0.3); box-shadow: 0 0 20px rgba(131,56,236,0.2);">&#129504;</div>
+        <div class="module-info">
+          <div class="module-title">Common Health Problems</div>
+          <div class="module-desc" style="color: rgba(131,56,236,0.6);">Dementia & Disease &middot; MCQ</div>
+        </div>
+        <div class="module-number" style="color: rgba(131,56,236,0.6);">07</div>
+        <div class="module-arrow">&#8250;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exam Sections -->
+  <div id="lecture1" class="exam-section"></div>
+  <div id="lecture2" class="exam-section"></div>
+  <div id="lecture3" class="exam-section"></div>
+  <div id="lecture4" class="exam-section"></div>
+  <div id="lecture5" class="exam-section"></div>
+  <div id="lecture6" class="exam-section"></div>
+  <div id="lecture7" class="exam-section"></div>
 </div>
 
 <script>
-// Example data for Lecture 1
+// Create floating particles
+const particlesContainer = document.getElementById('particles');
+for (let i = 0; i < 50; i++) {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = Math.random() * 100 + '%';
+  particle.style.animationDelay = Math.random() * 15 + 's';
+  particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+  particlesContainer.appendChild(particle);
+}
+
 const examData = {
   lecture1: [
   { q: "What is gerontology?", options: ["Study of diseases in children", "Scientific study of aging and old age", "Medical treatment of elderly only", "Study of genetics of aging"], correct: "Scientific study of aging and old age" },
-
   { q: "When does aging begin?", options: ["At age 65", "At puberty", "From birth", "After retirement"], correct: "From birth" },
-
   { q: "Which term refers to widespread negative attitudes toward the elderly?", options: ["Gerontology", "Ageism", "Senescence", "Chronological age"], correct: "Ageism" },
-
   { q: "What is chronological age?", options: ["Functional capacity", "Biological deterioration", "Number of years a person has lived", "Psychological age"], correct: "Number of years a person has lived" },
-
   { q: "Which age group is classified as 'young-old'?", options: ["55–64 years", "65–74 years", "75–84 years", "85–99 years"], correct: "65–74 years" },
-
   { q: "Which age group is classified as 'old-old'?", options: ["65–74 years", "75–84 years", "85–99 years", "Over 100 years"], correct: "85–99 years" },
-
   { q: "What term describes people over 100 years old?", options: ["Old-old", "Middle-old", "Centenarians", "Elite-old"], correct: "Elite-old" },
-
   { q: "Biological aging involves:", options: ["Increased cell production", "Loss of cells and reduced organ efficiency", "Enhanced immunity", "Faster tissue repair"], correct: "Loss of cells and reduced organ efficiency" },
-
   { q: "Functional age refers to:", options: ["Years lived", "Ability to perform ADLs and IADLs", "Immune decline", "Genetic predisposition"], correct: "Ability to perform ADLs and IADLs" },
-
   { q: "Which is an example of an IADL?", options: ["Bathing", "Grooming", "Cooking and shopping", "Walking"], correct: "Cooking and shopping" },
-
   { q: "What is primary aging?", options: ["Changes caused by disease", "Universal inevitable biological changes", "Social retirement changes", "Psychological changes"], correct: "Universal inevitable biological changes" },
-
   { q: "What is secondary aging?", options: ["Normal biological aging", "Changes caused by disease or environment", "Psychological impact of aging", "Genetic aging"], correct: "Changes caused by disease or environment" },
-
   { q: "Geriatrics refers to:", options: ["Social aging", "Medical care of elderly people", "Study of aging only", "Mental health services"], correct: "Medical care of elderly people" },
-
   { q: "Psychological age describes:", options: ["Years lived", "Cell condition", "Adaptive capacities like memory and learning", "Retirement age"], correct: "Adaptive capacities like memory and learning" },
-
   { q: "Social age refers to:", options: ["Biological function", "Social roles and habits", "Number of activities", "Chronological years"], correct: "Social roles and habits" },
-
   { q: "Which theory says successful aging involves maintaining middle-age activities?", options: ["Disengagement theory", "Activity theory", "Continuity theory", "Exchange theory"], correct: "Activity theory" },
-
   { q: "Disengagement theory suggests:", options: ["Older adults stay active", "Withdrawal between society and older adults is natural", "Genetics determine aging", "Exercise prevents aging"], correct: "Withdrawal between society and older adults is natural" },
-
   { q: "By 2050, what percentage of people are projected to be over 60?", options: ["5%", "10%", "22%", "30%"], correct: "22%" },
-
   { q: "Which statement about older adults is TRUE?", options: ["Most are institutionalized", "Most live independently", "All have cognitive decline", "All experience depression"], correct: "Most live independently" },
-
   { q: "Senescence refers to:", options: ["Study of elderly", "Biological process of growing old", "Negative attitudes toward elderly", "Retirement"], correct: "Biological process of growing old" },
-
   { q: "Which best supports healthy aging?", options: ["Complete bed rest", "Social isolation", "Exercise, nutrition, and preventive care", "High-calorie diet"], correct: "Exercise, nutrition, and preventive care" },
-
   { q: "Ageism can:", options: ["Improve job access", "Improve healthcare quality", "Limit fair treatment and jobs", "Increase independence"], correct: "Limit fair treatment and jobs" },
-
   { q: "The gerontological nurse primarily:", options: ["Treats acute illness only", "Promotes health and independence", "Manages finances", "Focuses only on end-of-life care"], correct: "Promotes health and independence" },
-
   { q: "Aging rates:", options: ["Are the same for everyone", "Differ between people and body systems", "Begin after age 40", "Occur equally in all systems"], correct: "Differ between people and body systems" },
-
   { q: "Health promotion aims to:", options: ["Cure chronic disease", "Maximize independence and quality of life", "Institutionalize elderly", "Eliminate all disease risk"], correct: "Maximize independence and quality of life" },
-
   { q: "Which most influences aging?", options: ["Country of birth", "Genetics, lifestyle, environment, and social factors", "Education only", "Income only"], correct: "Genetics, lifestyle, environment, and social factors" },
-
   { q: "The heterogeneous nature of older adults means:", options: ["All are alike", "Older adults are diverse", "Only biological age matters", "All age uniformly"], correct: "Older adults are diverse" },
-
   { q: "A psychological aging change is:", options: ["Bone density loss", "Reduced cardiac output", "Changes in memory and learning", "Loss of skin elasticity"], correct: "Changes in memory and learning" },
-
   { q: "Growth of the elderly population increases demand for:", options: ["Pediatric care", "Health promotion and preventive services", "Surgery only", "Acute care only"], correct: "Health promotion and preventive services" },
-
   { q: "Social aging refers to changes in:", options: ["Organ function", "Social roles and relationships", "Memory", "Cell degeneration"], correct: "Social roles and relationships" },
-
   { q: "Life span means:", options: ["Average years lived", "Maximum years a species can live", "Functional capacity", "Chronological age"], correct: "Maximum years a species can live" },
-
   { q: "Life expectancy means:", options: ["Maximum possible age", "Average expected years of life", "Functional capacity", "Genetic lifespan"], correct: "Average expected years of life" },
-
   { q: "Decline of which system increases infection risk?", options: ["Musculoskeletal", "Endocrine", "Immune", "Reproductive"], correct: "Immune" },
-
   { q: "Gerontological nursing focuses on:", options: ["Disease treatment only", "Meeting unique elderly needs", "Psychiatric care only", "Medication management only"], correct: "Meeting unique elderly needs" },
-
   { q: "Which statement about ageism is TRUE?", options: ["It affects only men", "It has no healthcare impact", "It is based on negative stereotypes", "It improves employment"], correct: "It is based on negative stereotypes" },
-
   { q: "The middle-old group includes:", options: ["65–74 years", "75–84 years", "85–99 years", "100+ years"], correct: "75–84 years" },
-
   { q: "ADLs include:", options: ["Cooking and shopping", "Bathing and grooming", "Managing finances", "Transportation"], correct: "Bathing and grooming" },
-
   { q: "Which environmental factor accelerates secondary aging?", options: ["Exercise", "Balanced diet", "Smoking and pollution", "Social engagement"], correct: "Smoking and pollution" },
-
   { q: "Preventive services help elderly people to:", options: ["Depend on facilities", "Remain independent", "Reduce interaction", "Focus only on treatment"], correct: "Remain independent" },
-
   { q: "Which population segment is growing fastest?", options: ["Children", "Adolescents", "Older adults", "Middle-aged adults"], correct: "Older adults" },
-
   { q: "Physical aging is another term for:", options: ["Social aging", "Functional aging", "Biological aging", "Psychological aging"], correct: "Biological aging" },
-
   { q: "Adapting to stress and learning skills describes:", options: ["Social age", "Chronological age", "Psychological age", "Biological age"], correct: "Psychological age" },
-
   { q: "Gerontology differs from geriatrics because:", options: ["Gerontology studies disease only", "Gerontology studies aging broadly while geriatrics treats elderly patients", "They are identical", "Geriatrics studies social aging"], correct: "Gerontology studies aging broadly while geriatrics treats elderly patients" },
-
   { q: "Aging being individualized means:", options: ["Everyone ages equally", "Each person ages uniquely", "Only genetics matter", "Environment has no effect"], correct: "Each person ages uniquely" },
-
   { q: "Exchange theory proposes:", options: ["Older adults stay active", "Society and elderly exchange roles and resources", "Disengagement is inevitable", "Continuity prevents aging"], correct: "Society and elderly exchange roles and resources" },
-
   { q: "A demographic challenge of aging is:", options: ["Less need for healthcare workers", "Reduced pension burden", "Increased demand for healthcare services", "Declining elderly numbers"], correct: "Increased demand for healthcare services" },
-
   { q: "Cognitive aging changes may include:", options: ["Faster processing", "Improved memory", "Slower processing and memory changes", "Enhanced multitasking"], correct: "Slower processing and memory changes" },
-
   { q: "Maintaining quality of life includes:", options: ["Restricting social activities", "Promoting independence and participation", "Limiting activity", "Focusing only on physical health"], correct: "Promoting independence and participation" },
-
   { q: "Continuity theory proposes:", options: ["Older adults disengage", "Older adults maintain consistent personalities and adapt", "Activity has no effect", "All personalities change drastically"], correct: "Older adults maintain consistent personalities and adapt" },
-
   { q: "The goal of health promotion in gerontology is:", options: ["Avoid healthcare systems", "Maximize independence and well-being", "Treat chronic disease only", "Limit community participation"], correct: "Maximize independence and well-being" }
 ],
   lecture2: [
   { q: "Age-related changes at the cellular level include:", options: ["Increased cell replication speed", "Reduced ability to replicate and decreased intracellular water", "Enhanced DNA repair", "Increased mitochondrial activity"], correct: "Reduced ability to replicate and decreased intracellular water" },
-
   { q: "Which cardiovascular change is commonly associated with aging?", options: ["Increased cardiac output", "Decreased peripheral vascular resistance", "Decreased cardiac output and increased peripheral resistance", "Strengthening of heart valves"], correct: "Decreased cardiac output and increased peripheral resistance" },
-
   { q: "Which respiratory change is expected with normal aging?", options: ["Increased lung elasticity", "Decreased vital capacity and increased residual volume", "Stronger respiratory muscles", "Improved gas exchange"], correct: "Decreased vital capacity and increased residual volume" },
-
   { q: "Normal aging of the gastrointestinal system includes:", options: ["Increased gastric acid secretion", "Faster bowel motility", "Decreased motility, reduced enzyme secretion, and higher risk of constipation", "Enhanced absorption of nutrients"], correct: "Decreased motility, reduced enzyme secretion, and higher risk of constipation" },
-
   { q: "Age-related changes in the urinary system include:", options: ["Increased bladder capacity", "Enhanced renal filtration", "Decreased bladder capacity, reduced glomerular filtration rate, increased frequency", "Reduced risk of urinary tract infection"], correct: "Decreased bladder capacity, reduced glomerular filtration rate, increased frequency" },
-
   { q: "Which musculoskeletal change is associated with aging?", options: ["Increased bone density", "Hypertrophy of skeletal muscles", "Decreased muscle mass (sarcopenia) and bone density", "Enhanced joint flexibility"], correct: "Decreased muscle mass (sarcopenia) and bone density" },
-
   { q: "The term 'sarcopenia' refers to:", options: ["Bone loss with age", "Age-related loss of muscle mass and strength", "Skin wrinkling", "Loss of hearing"], correct: "Age-related loss of muscle mass and strength" },
-
   { q: "Which integumentary (skin) change occurs with aging?", options: ["Increased skin elasticity", "Thicker, more resilient skin", "Decreased elasticity, thinning, and increased dryness", "Enhanced melanin production"], correct: "Decreased elasticity, thinning, and increased dryness" },
-
   { q: "Age-related changes in the nervous system include:", options: ["Increased neuronal density", "Faster nerve conduction velocity", "Decreased number of neurons and slower nerve conduction", "Enhanced sensory perception"], correct: "Decreased number of neurons and slower nerve conduction" },
-
   { q: "Which sensory change is typical in aging?", options: ["Improved night vision", "Increased taste sensitivity", "Decreased visual acuity, hearing loss, and reduced taste and smell", "Enhanced tactile sensation"], correct: "Decreased visual acuity, hearing loss, and reduced taste and smell" },
-
   { q: "Presbyopia is an age-related change that affects:", options: ["Hearing", "Balance", "Near vision due to reduced lens flexibility", "Taste sensation"], correct: "Near vision due to reduced lens flexibility" },
-
   { q: "Presbycusis refers to:", options: ["Age-related vision loss", "Age-related hearing loss, particularly high-frequency sounds", "Reduced sense of smell", "Decline in taste perception"], correct: "Age-related hearing loss, particularly high-frequency sounds" },
-
   { q: "Which endocrine change is commonly seen with aging?", options: ["Increased insulin sensitivity", "Enhanced thyroid function", "Decreased response to insulin, reduced thyroid efficiency, and hormonal changes", "Elevated growth hormone levels"], correct: "Decreased response to insulin, reduced thyroid efficiency, and hormonal changes" },
-
   { q: "Thermoregulation in older adults is impaired because:", options: ["Core body temperature increases with age", "Sweat glands increase activity", "Reduced ability to shiver, decreased subcutaneous fat, and impaired sweating", "Older adults are immune to temperature changes"], correct: "Reduced ability to shiver, decreased subcutaneous fat, and impaired sweating" },
-
   { q: "Aging changes in the immune system result in:", options: ["Enhanced antibody production", "Increased resistance to infections", "Reduced immune response and greater susceptibility to infections and cancer", "No change in immune function"], correct: "Reduced immune response and greater susceptibility to infections and cancer" },
-
   { q: "A nursing implication for decreased cardiac output is to:", options: ["Encourage strenuous activity without rest", "Allow rest between activities and monitor blood pressure", "Restrict all activity permanently", "Avoid blood pressure monitoring"], correct: "Allow rest between activities and monitor blood pressure" },
-
   { q: "To address reduced intracellular fluid in aging, nurses should:", options: ["Restrict fluid intake", "Ensure fluid intake of at least 1500 mL daily", "Administer diuretics", "Advise drinking only when thirsty"], correct: "Ensure fluid intake of at least 1500 mL daily" },
-
   { q: "Reduced subcutaneous fat in older adults requires nurses to:", options: ["Encourage weight loss", "Ensure adequate clothing and warm room temperature", "Expose patient to cold for adaptation", "Avoid body temperature assessment"], correct: "Ensure adequate clothing and warm room temperature" },
-
   { q: "Which psychological change is normal with aging?", options: ["Complete memory loss", "Dementia in all elderly", "Slowed information processing and reduced short-term memory efficiency", "No psychological changes occur"], correct: "Slowed information processing and reduced short-term memory efficiency" },
-
   { q: "Normal age-related changes in women include:", options: ["Increased estrogen production", "Enhanced fertility", "Menopause, vaginal dryness, and reduced lubrication", "Enlargement of ovaries"], correct: "Menopause, vaginal dryness, and reduced lubrication" },
-
   { q: "Age-related changes in the male reproductive system include:", options: ["Increased testosterone levels", "Faster sexual response", "Decreased testosterone and slower sexual response", "No reproductive changes"], correct: "Decreased testosterone and slower sexual response" },
-
   { q: "Hair changes associated with aging include:", options: ["Increased hair growth", "Darkening of hair color", "Graying, thinning, and slower growth", "Thickening of scalp hair"], correct: "Graying, thinning, and slower growth" },
-
   { q: "Which statement about bone changes is TRUE?", options: ["Bone density increases with age", "Osteoporosis is more common in men", "Bone density decreases with age increasing fracture risk", "Bone remodeling becomes faster"], correct: "Bone density decreases with age increasing fracture risk" },
-
   { q: "Constipation risk in older adults increases because of:", options: ["Increased bowel motility", "Higher fluid intake", "Decreased bowel motility and reduced activity", "Enhanced digestive enzymes"], correct: "Decreased bowel motility and reduced activity" },
-
   { q: "Urinary incontinence is often related to:", options: ["Increased bladder capacity", "Weakening of sphincter muscles", "Enhanced kidney filtration", "Increased fluid intake"], correct: "Weakening of sphincter muscles" },
-
   { q: "Cataracts are caused by:", options: ["Increased lens transparency", "Clouding of the eye lens", "Retinal detachment", "Damage to the optic nerve"], correct: "Clouding of the eye lens" },
-
   { q: "Age-related macular degeneration affects:", options: ["Peripheral vision only", "The macula causing central vision loss", "The lens of the eye", "Hearing function"], correct: "The macula causing central vision loss" },
-
   { q: "A nursing consideration for reduced oral temperature is to:", options: ["Use standard thermometers only", "Use thermometers that register low temperatures", "Assume every reading is normal", "Avoid taking temperatures"], correct: "Use thermometers that register low temperatures" },
-
   { q: "Which factor most contributes to psychological changes in aging?", options: ["Genetics alone", "Social isolation and health changes", "Physical fitness only", "Income level"], correct: "Social isolation and health changes" },
-
   { q: "Sleep changes in older adults include:", options: ["Longer total sleep time", "Deeper sleep", "Frequent awakenings and less deep sleep", "Earlier sleep onset only"], correct: "Frequent awakenings and less deep sleep" },
-
   { q: "The statement 'living is a process of continual change' refers to:", options: ["Disease-related changes only", "Lifelong physical, emotional, and social changes", "Changes only in old age", "Genetic changes only"], correct: "Lifelong physical, emotional, and social changes" },
-
   { q: "Reduced gastric acid secretion can lead to:", options: ["Increased nutrient absorption", "Reduced absorption of vitamin B12 and calcium", "Enhanced digestion", "Reduced ulcer risk"], correct: "Reduced absorption of vitamin B12 and calcium" },
-
   { q: "Which appearance change is associated with aging?", options: ["Increased height", "Decreased body fat", "Loss of height and postural changes", "Muscle hypertrophy"], correct: "Loss of height and postural changes" },
-
   { q: "Neurological aging changes include:", options: ["Improved reaction time", "Increased seizure risk", "Slower reaction time and balance issues", "Enhanced proprioception"], correct: "Slower reaction time and balance issues" },
-
   { q: "Hearing aids are useful for patients with:", options: ["Presbyopia", "Presbycusis", "Thermoregulation issues", "Musculoskeletal decline"], correct: "Presbycusis" },
-
   { q: "Dry skin in older adults is best managed by:", options: ["Frequent hot showers", "Harsh soaps", "Regular moisturizing", "Excessive sun exposure"], correct: "Regular moisturizing" },
-
   { q: "Kyphosis in older adults results from:", options: ["Increased vertebral disc size", "Muscle hypertrophy", "Loss of bone density and vertebral compression", "Enhanced ligament strength"], correct: "Loss of bone density and vertebral compression" },
-
   { q: "Which cardiovascular risk increases with age?", options: ["Decreased blood pressure", "Atrial fibrillation and hypertension", "Lower resting heart rate", "Thinner arteries"], correct: "Atrial fibrillation and hypertension" },
-
   { q: "Kidney function changes with aging include:", options: ["Increased GFR", "Reduced kidney mass and filtering capacity", "Enhanced renal blood flow", "Increased renin production"], correct: "Reduced kidney mass and filtering capacity" },
-
   { q: "Aging endocrine changes increase risk for:", options: ["Hyperthyroidism", "Type 1 diabetes", "Type 2 diabetes and hypothyroidism", "Cushing syndrome"], correct: "Type 2 diabetes and hypothyroidism" },
-
   { q: "Reduced saliva production increases risk of:", options: ["Better taste perception", "Dental caries and swallowing difficulty", "Enhanced digestion", "Increased appetite"], correct: "Dental caries and swallowing difficulty" },
-
   { q: "Fall risk in older adults is linked to:", options: ["Faster reflexes", "Improved balance", "Slowed reaction time and decreased proprioception", "Enhanced coordination"], correct: "Slowed reaction time and decreased proprioception" },
-
   { q: "Increased drug toxicity risk in the elderly is mainly due to:", options: ["Increased renal clearance", "Faster metabolism", "Decreased liver and kidney function", "Enhanced absorption"], correct: "Decreased liver and kidney function" },
-
   { q: "Breast tissue changes in aging women include:", options: ["Increased glandular tissue", "Replacement of glandular tissue with fat", "Reduced cancer risk", "Enhanced milk production"], correct: "Replacement of glandular tissue with fat" },
-
   { q: "Wrinkles in aging are caused by:", options: ["Darkening of teeth", "Increased skin thickness", "Collagen breakdown", "Longer fingernails"], correct: "Collagen breakdown" },
-
   { q: "Respiratory aging changes increase the risk of:", options: ["Improved oxygen exchange", "Reduced pneumonia risk", "Pneumonia and impaired cough reflex", "Enhanced lung capacity"], correct: "Pneumonia and impaired cough reflex" },
-
   { q: "Normal cognitive aging changes include:", options: ["Severe confusion", "Complete long-term memory loss", "Slower recall speed with intact long-term memory", "Inability to learn"], correct: "Slower recall speed with intact long-term memory" },
-
   { q: "Thinner skin in older adults increases risk of:", options: ["Sunburn resistance", "Pressure ulcers", "Reduced skin cancer risk", "Enhanced wound healing"], correct: "Pressure ulcers" },
-
   { q: "Menopause-related estrogen loss increases risk of:", options: ["Hypertension only", "Osteoporosis and cardiovascular disease", "Increased bone density", "Hyperthyroidism"], correct: "Osteoporosis and cardiovascular disease" },
-
   { q: "The most appropriate intervention for sensory changes is:", options: ["Speak loudly only", "Limit communication", "Use clear environments, larger print, and assistive devices", "Avoid discussing sensory problems"], correct: "Use clear environments, larger print, and assistive devices" }
 ],
   lecture3: [
   { q: "What is a hazard?", options: ["Any form of medication", "A condition or situation that poses a risk of harm or adverse health effects", "A natural aging change", "A psychological disorder"], correct: "A condition or situation that poses a risk of harm or adverse health effects" },
-
   { q: "Climate change is projected to cause approximately how many additional deaths annually among older adults?", options: ["50,000", "100,000", "250,000", "500,000"], correct: "250,000" },
-
   { q: "Which health effects of climate change are most relevant to the elderly?", options: ["Improved cardiovascular health", "Heat stress, respiratory diseases, infectious diseases, malnutrition, and dehydration", "Increased bone density", "Enhanced immune response"], correct: "Heat stress, respiratory diseases, infectious diseases, malnutrition, and dehydration" },
-
   { q: "Which type of hazard refers to harmful chemical substances in the environment?", options: ["Physical hazards", "Biological hazards", "Chemical hazards", "Psychological hazards"], correct: "Chemical hazards" },
-
   { q: "Physical hazards in the environment of older adults include:", options: ["Bacterial infections", "Medication side effects", "Unsafe stairs, poor lighting, loose rugs, and slippery floors", "Nutritional deficiencies"], correct: "Unsafe stairs, poor lighting, loose rugs, and slippery floors" },
-
   { q: "Which of the following is an intrinsic risk factor for falls in the elderly?", options: ["Loose rugs", "Poor lighting", "Muscle weakness, impaired balance, and vision problems", "Slippery floors"], correct: "Muscle weakness, impaired balance, and vision problems" },
-
   { q: "Which of the following is an extrinsic risk factor for falls?", options: ["Muscle weakness", "Polypharmacy", "Loose carpets, poor lighting, and cluttered pathways", "Cognitive impairment"], correct: "Loose carpets, poor lighting, and cluttered pathways" },
-
   { q: "Falls in the elderly are most commonly associated with which consequence?", options: ["Improved mobility", "Fractures, head injuries, and loss of independence", "Enhanced cardiovascular health", "No significant health impact"], correct: "Fractures, head injuries, and loss of independence" },
-
   { q: "What is the most common fracture site resulting from falls in older adults?", options: ["Wrist", "Spine", "Hip", "Ankle"], correct: "Hip" },
-
   { q: "The gerontological nurse's role regarding environmental safety includes:", options: ["Only treating injuries after falls", "Conducting environmental assessments and educating patients on hazard reduction", "Avoiding discussions about fall risks", "Prescribing medications for fall prevention"], correct: "Conducting environmental assessments and educating patients on hazard reduction" },
-
   { q: "Which of the following is a recommended home safety measure for older adults?", options: ["Using fluffy rugs in hallways", "Keeping nightlights on at night", "Storing medications in bathroom cabinets", "Using loose-fitting shoes"], correct: "Keeping nightlights on at night" },
-
   { q: "Installing grab bars in bathrooms helps elderly patients to:", options: ["Improve their vision", "Prevent falls and support safe mobility", "Manage medications", "Enhance hearing"], correct: "Prevent falls and support safe mobility" },
-
   { q: "Which environmental modification reduces the risk of falls most effectively?", options: ["Removing all furniture from rooms", "Using non-slip mats, good lighting, and clear pathways", "Installing thick carpeting on all floors", "Avoiding assistive devices"], correct: "Using non-slip mats, good lighting, and clear pathways" },
-
   { q: "'Life threats or hazards' in the elderly environment include:", options: ["Poor nutrition habits", "Fire, carbon monoxide, gas leaks, and electrical hazards", "Mild temperature changes", "Normal household dust"], correct: "Fire, carbon monoxide, gas leaks, and electrical hazards" },
-
   { q: "Principles of hazard management include:", options: ["Ignoring minor hazards", "Identifying hazards, assessing risk, and implementing control measures", "Only addressing hazards after an incident", "Relying only on family members"], correct: "Identifying hazards, assessing risk, and implementing control measures" },
-
   { q: "Bathroom hazards for older adults include:", options: ["Non-slip mats and grab bars", "Wet floors, absence of grab bars, and high bathtub sides", "Low toilet seats and bright lighting", "Anti-scald devices"], correct: "Wet floors, absence of grab bars, and high bathtub sides" },
-
   { q: "A safe home environment for an elderly person should include:", options: ["Extension cords across walkways", "Adequate lighting, non-slip surfaces, and clear pathways", "Steep stairs without handrails", "Heavy furniture in walkways"], correct: "Adequate lighting, non-slip surfaces, and clear pathways" },
-
   { q: "Which measure reduces heat stress risk during hot weather?", options: ["Outdoor activities during peak heat", "Restricting fluid intake", "Air conditioning, adequate hydration, and avoiding peak heat hours", "Wearing dark heavy clothing"], correct: "Air conditioning, adequate hydration, and avoiding peak heat hours" },
-
   { q: "Polypharmacy contributes to fall risk by:", options: ["Improving balance", "Causing dizziness, confusion, and hypotension", "Strengthening muscles", "Enhancing vision"], correct: "Causing dizziness, confusion, and hypotension" },
-
   { q: "Which assistive device is most appropriate for mobility difficulties?", options: ["High-heeled shoes", "Walking cane, walker, or rollator", "Tight clothing", "Bifocal glasses without frames"], correct: "Walking cane, walker, or rollator" },
-
   { q: "Environmental health hazards for the elderly include all EXCEPT:", options: ["Air pollution", "Noise pollution", "Regular social activities", "Extreme temperature exposure"], correct: "Regular social activities" },
-
   { q: "Biological hazards relevant to older adults include:", options: ["Poor lighting", "Slippery floors", "Infections from bacteria, viruses, and mold", "Carbon monoxide exposure"], correct: "Infections from bacteria, viruses, and mold" },
-
   { q: "What does 'safe environment' mean in gerontological care?", options: ["An environment free of social interactions", "A physical and social space minimizing harm and supporting independence", "A hospital setting only", "Restricted mobility for safety"], correct: "A physical and social space minimizing harm and supporting independence" },
-
   { q: "Home safety for older adults who live alone should include:", options: ["Isolation from services", "Emergency call systems and regular check-ins", "Removing all kitchen appliances", "Eliminating mobility aids"], correct: "Emergency call systems and regular check-ins" },
-
   { q: "Which factor affecting environmental safety is unique to older adults?", options: ["Increased physical strength", "Perfect vision", "Sensory and mobility changes reducing hazard detection", "Enhanced reaction times"], correct: "Sensory and mobility changes reducing hazard detection" },
-
   { q: "Kitchen safety measures include:", options: ["Storing sharp objects low", "Using stove knob covers and non-slip mats", "Keeping the kitchen unlocked", "Using open flames for heating"], correct: "Using stove knob covers and non-slip mats" },
-
   { q: "Why are falls a major public health concern in the elderly?", options: ["They only affect institutionalized elderly", "They are the leading cause of injury and disability", "They are easily preventable without intervention", "They have minimal impact"], correct: "They are the leading cause of injury and disability" },
-
   { q: "Heat exhaustion can be prevented by:", options: ["Limiting fluid intake", "Ensuring hydration and cool environments", "Wearing multiple clothing layers", "Staying outdoors during peak hours"], correct: "Ensuring hydration and cool environments" },
-
   { q: "Which statement about falls is TRUE?", options: ["Falls are inevitable", "Falls can be prevented through environmental modifications and exercise", "Most falls cause no injury", "Falls occur only in institutions"], correct: "Falls can be prevented through environmental modifications and exercise" },
-
   { q: "Factors contributing to falls include all EXCEPT:", options: ["Postural hypotension", "Vision impairment", "Regular exercise program", "Medication side effects"], correct: "Regular exercise program" },
-
   { q: "A night light in the bedroom helps to:", options: ["Improve daytime vision", "Reduce nighttime falls", "Reduce electricity usage", "Enhance sleep quality"], correct: "Reduce nighttime falls" },
-
   { q: "Non-slip shoes help older adults to:", options: ["Increase fall risk", "Reduce slipping risk", "Improve cardiovascular health", "Prevent cognitive decline"], correct: "Reduce slipping risk" },
-
   { q: "Which community resource supports independent elderly living?", options: ["Isolation from services", "Home health aides and senior centers", "Removal of mobility aids", "Avoidance of healthcare providers"], correct: "Home health aides and senior centers" },
-
   { q: "The lecture activity image illustrated:", options: ["Healthy aging examples", "Multiple hazards in a home environment", "An ideal safe bedroom", "Fall recovery techniques"], correct: "Multiple hazards in a home environment" },
-
   { q: "Stair safety includes:", options: ["Removing handrails", "Handrails on both sides and good lighting", "Using steep stairs for exercise", "Keeping stairs dimly lit"], correct: "Handrails on both sides and good lighting" },
-
   { q: "Older adults are more vulnerable to temperature extremes because of:", options: ["Enhanced thermoregulation", "Impaired thermoregulation and reduced subcutaneous fat", "Increased sweat gland activity", "Faster metabolism"], correct: "Impaired thermoregulation and reduced subcutaneous fat" },
-
   { q: "Environmental assessment aims to:", options: ["Identify psychological disorders", "Identify and reduce hazards in the living environment", "Evaluate finances", "Assess medication compliance only"], correct: "Identify and reduce hazards in the living environment" },
-
   { q: "The first step in hazard management is:", options: ["Implement control measures immediately", "Identify and assess the hazard", "Remove the elderly permanently", "Ignore hazards until injury occurs"], correct: "Identify and assess the hazard" },
-
   { q: "Carbon monoxide is especially dangerous because:", options: ["It improves respiratory function", "Older adults may not detect the odorless gas easily", "Older adults are immune to it", "It only affects young people"], correct: "Older adults may not detect the odorless gas easily" },
-
   { q: "Which aging factor increases susceptibility to biological hazards?", options: ["Enhanced immune function", "Reduced immune response", "Faster wound healing", "Improved respiratory function"], correct: "Reduced immune response" },
-
   { q: "Water temperature hazards can be reduced by:", options: ["Setting water heaters very high", "Installing anti-scald devices and setting temperature below 120°F", "Avoiding bathing", "Using cold water only"], correct: "Installing anti-scald devices and setting temperature below 120°F" },
-
   { q: "Medication storage safety includes:", options: ["Keeping medications on counters", "Keeping medications in a cool dry place with organizers", "Mixing all medications together", "Storing medications in bathrooms"], correct: "Keeping medications in a cool dry place with organizers" },
-
   { q: "Environmental fall risks in nursing homes include:", options: ["Well-lit hallways", "Non-slip floors", "Wet floors and poorly fitting footwear", "Proper bed height"], correct: "Wet floors and poorly fitting footwear" },
-
   { q: "The nurse's role in environmental health includes:", options: ["Only treating diseases", "Educating patients and families on safe modifications", "Avoiding environmental discussions", "Focusing only on medication"], correct: "Educating patients and families on safe modifications" },
-
   { q: "High air pollution increases risk of:", options: ["Improved lung function", "Respiratory and cardiovascular diseases", "Enhanced immunity", "Reduced infection risk"], correct: "Respiratory and cardiovascular diseases" },
-
   { q: "Which intrinsic factor increases fall risk?", options: ["Secure handrails", "Good lighting", "Postural hypotension and balance disorders", "Non-slip flooring"], correct: "Postural hypotension and balance disorders" },
-
   { q: "Raised toilet seats help by:", options: ["Increasing fall risk", "Reducing strain during sitting and standing", "Decreasing independence", "Having no impact"], correct: "Reducing strain during sitting and standing" },
-
   { q: "A walker provides elderly patients with:", options: ["Complete independence from physiotherapy", "Improved stability and support for ambulation", "No balance benefit", "Increased fall risk"], correct: "Improved stability and support for ambulation" },
-
   { q: "Home modifications for visually impaired older adults include:", options: ["Dim lighting", "High-contrast stair markings and better lighting", "Removing all lighting fixtures", "Complex floor patterns"], correct: "High-contrast stair markings and better lighting" },
-
   { q: "The overall goal of environmental safety interventions is to:", options: ["Restrict mobility permanently", "Maximize independence and reduce injury risk", "Move all elderly people to nursing homes", "Eliminate all social activities"], correct: "Maximize independence and reduce injury risk" }
-],
-  lecture4: [
+],  lecture4: [
   { q: "What is a caregiver?", options: ["A professional nurse only", "A person who provides assistance to someone needing help due to illness, disability, or aging", "A social worker exclusively", "A physician managing chronic disease"], correct: "A person who provides assistance to someone needing help due to illness, disability, or aging" },
-
   { q: "Informal caregivers are characterized by:", options: ["Receiving professional training and payment", "Being unpaid family members, friends, or neighbors who provide care", "Working for healthcare institutions", "Being licensed healthcare professionals"], correct: "Being unpaid family members, friends, or neighbors who provide care" },
-
   { q: "Formal caregivers differ because they:", options: ["Are always family members", "Are paid, trained professionals", "Have no caregiving training", "Only provide emotional support"], correct: "Are paid, trained professionals" },
-
   { q: "Why is family caregiving important?", options: ["It institutionalizes elderly people faster", "It helps elderly people remain in their communities and maintain quality of life", "It removes need for professional care", "It limits independence"], correct: "It helps elderly people remain in their communities and maintain quality of life" },
-
   { q: "The gerontological nurse's role with caregivers includes:", options: ["Replacing the caregiver", "Educating, supporting, and assessing caregivers", "Ignoring caregiver needs", "Treating only the elderly patient"], correct: "Educating, supporting, and assessing caregivers" },
-
   { q: "Caregiver burnout is:", options: ["Normal daily fatigue", "Physical, emotional, and mental exhaustion from prolonged caregiving stress", "Job satisfaction", "Improved coping"], correct: "Physical, emotional, and mental exhaustion from prolonged caregiving stress" },
-
   { q: "Warning signs of caregiver burnout include:", options: ["Increased energy", "Exhaustion, withdrawal, depression, and neglect of personal health", "Improved relationships", "Enhanced productivity"], correct: "Exhaustion, withdrawal, depression, and neglect of personal health" },
-
   { q: "Which is a caregiver duty?", options: ["Making investments", "Providing personal care and medication management", "Avoiding healthcare teams", "Making all decisions alone"], correct: "Providing personal care and medication management" },
-
   { q: "Family caregiving may cause:", options: ["No family changes", "Financial strain and emotional stress", "Only positive effects", "Improved family income"], correct: "Financial strain and emotional stress" },
-
   { q: "Factors affecting caregiver roles include:", options: ["Only caregiver age", "Health, finances, relationship, and support systems", "Diagnosis only", "Government rules alone"], correct: "Health, finances, relationship, and support systems" },
-
   { q: "Which factor increases caregiver burden most?", options: ["Short caregiving duration", "Strong support network", "Long caregiving duration with limited support", "Professional caregiver status"], correct: "Long caregiving duration with limited support" },
-
   { q: "Which tip helps prevent burnout?", options: ["Avoiding social interactions", "Seeking respite care and regular breaks", "Providing care without rest", "Ignoring personal health"], correct: "Seeking respite care and regular breaks" },
-
   { q: "Respite care is:", options: ["Permanent nursing home placement", "Temporary relief for caregivers", "A type of palliative care", "Emergency care"], correct: "Temporary relief for caregivers" },
-
   { q: "A psychological effect of caregiving is:", options: ["Constant happiness", "Risk of depression and anxiety", "Career advancement", "Improved physical fitness"], correct: "Risk of depression and anxiety" },
-
   { q: "Ignoring personal health places caregivers at risk for:", options: ["Greater efficiency", "Better outcomes", "Burnout and health deterioration", "Improved satisfaction"], correct: "Burnout and health deterioration" },
-
   { q: "The '10 Tips for Family Caregivers' aim to:", options: ["Avoid professional help", "Support caregivers while maintaining well-being", "Increase caregiving duties", "Promote institutionalization"], correct: "Support caregivers while maintaining well-being" },
-
   { q: "Which statement about caregiver stress is TRUE?", options: ["It affects only professionals", "It can cause serious physical and mental health problems", "It has no effect on care quality", "It occurs only short-term"], correct: "It can cause serious physical and mental health problems" },
-
   { q: "Nurses reduce caregiver burden by:", options: ["Encouraging independent caregiving only", "Connecting caregivers to support resources", "Ignoring stress", "Stopping social activities"], correct: "Connecting caregivers to support resources" },
-
   { q: "Involving elderly persons in care decisions:", options: ["Increases burden", "Respects autonomy and improves outcomes", "Is not recommended", "Has no impact"], correct: "Respects autonomy and improves outcomes" },
-
   { q: "Financial strain usually results from:", options: ["Reduced care quality", "Medical costs and lost income", "Increased caregiver income", "Government subsidies"], correct: "Medical costs and lost income" },
-
   { q: "Which community service supports caregivers?", options: ["Pediatric clinics", "Adult day care centers and home health aides", "School counseling", "Emergency services only"], correct: "Adult day care centers and home health aides" },
-
   { q: "Effective caregiver communication involves:", options: ["Avoiding appointments", "Sharing observations and coordinating care", "Withholding information", "Making decisions alone"], correct: "Sharing observations and coordinating care" },
-
   { q: "A nurse recognizes caregiver stress when the caregiver:", options: ["Feels rested", "Shows exhaustion and frustration", "Seeks resources", "Attends support groups"], correct: "Shows exhaustion and frustration" },
-
   { q: "Which statement about family caregiving is TRUE?", options: ["Most elder care is formal", "Most elder care is provided by family caregivers", "Family caregivers are always trained", "Caregiving never affects relationships"], correct: "Most elder care is provided by family caregivers" },
-
   { q: "Burned-out caregivers may cause:", options: ["Improved care", "Neglect and inadequate care", "Better medication management", "More attention"], correct: "Neglect and inadequate care" },
-
   { q: "Which factor helps caregivers cope effectively?", options: ["Social isolation", "Strong social support and self-care", "Refusing professional help", "Taking extra duties"], correct: "Strong social support and self-care" },
-
   { q: "Caregiver education includes:", options: ["Replacing all professional services", "Teaching aging changes and community resources", "Avoiding patient interaction", "Managing finances"], correct: "Teaching aging changes and community resources" },
-
   { q: "Caregiver role strain means:", options: ["Satisfaction from caregiving", "Difficulty performing the caregiver role", "Physical fitness", "Enhanced social network"], correct: "Difficulty performing the caregiver role" },
-
   { q: "Which approach prevents burnout?", options: ["No breaks", "Seeking help and maintaining health", "Handling all responsibilities alone", "Avoiding social contact"], correct: "Seeking help and maintaining health" },
-
   { q: "The sandwich generation refers to:", options: ["Elderly caring for each other", "Adults caring for parents and children simultaneously", "Professional caregivers with two jobs", "Children caring for siblings"], correct: "Adults caring for parents and children simultaneously" },
-
   { q: "If an elderly person resists care, the nurse should:", options: ["Force care", "Explore the reason and respect autonomy", "Dismiss concerns", "Remove the caregiver"], correct: "Explore the reason and respect autonomy" },
-
   { q: "Support groups provide:", options: ["Medical treatment", "Emotional support and practical advice", "Financial compensation", "Nursing training"], correct: "Emotional support and practical advice" },
-
   { q: "Informal caregivers include:", options: ["Only nurses and doctors", "Family, friends, and neighbors providing unpaid care", "Agency social workers", "Paid aides"], correct: "Family, friends, and neighbors providing unpaid care" },
-
   { q: "Which ethical issue is important in caregiving?", options: ["Ignoring preferences", "Respecting dignity and autonomy", "Making all decisions", "Prioritizing convenience"], correct: "Respecting dignity and autonomy" },
-
   { q: "Caregiving may affect careers by:", options: ["Career advancement", "Reduced work hours and job loss", "Improved productivity", "No employment impact"], correct: "Reduced work hours and job loss" },
-
   { q: "Home health aide services:", options: ["Replace family permanently", "Provide assistance reducing burden", "Provide all medical treatments", "Remove elderly people from home"], correct: "Provide assistance reducing burden" },
-
   { q: "Spiritual and cultural factors should be:", options: ["Ignored", "Respected and included in care", "Replaced by standard care", "Discussed only with physicians"], correct: "Respected and included in care" },
-
   { q: "Caregiver competence means:", options: ["Making all decisions independently", "Knowledge and confidence in safe care", "Avoiding resources", "Providing care without training"], correct: "Knowledge and confidence in safe care" },
-
   { q: "Families may avoid professional help because of:", options: ["Too many resources", "Cultural expectations or guilt", "Services are unnecessary", "All families are trained"], correct: "Cultural expectations or guilt" },
-
   { q: "Nurses should assess caregivers for:", options: ["Excellent fitness", "Burnout and depression", "Career satisfaction", "Financial prosperity"], correct: "Burnout and depression" },
-
   { q: "Caregiving becomes abusive when:", options: ["The caregiver takes breaks", "The caregiver neglects or harms the elderly person", "Respite care is used", "Community services are used"], correct: "The caregiver neglects or harms the elderly person" },
-
   { q: "Elder day care programs:", options: ["Permanently remove elderly people", "Provide safe daytime care and caregiver respite", "Replace family care", "Have no caregiver benefit"], correct: "Provide safe daytime care and caregiver respite" },
-
   { q: "Male caregivers:", options: ["Always provide more care", "May be less likely to seek emotional support", "Have no caregiving challenges", "Are always informal caregivers"], correct: "May be less likely to seek emotional support" },
-
   { q: "Teaching safe lifting techniques prevents:", options: ["Independence", "Musculoskeletal injuries in caregivers", "Medication errors", "Financial problems"], correct: "Musculoskeletal injuries in caregivers" },
-
   { q: "Strong social support:", options: ["Increases burden", "Reduces stress and burnout", "Has no impact", "Increases financial strain"], correct: "Reduces stress and burnout" },
-
   { q: "Dementia patients requiring 24-hour supervision create:", options: ["Minimal burden", "Moderate burden", "High caregiver burden", "No burden with training"], correct: "High caregiver burden" },
-
   { q: "A key principle in supporting caregivers is:", options: ["Discouraging services", "Recognizing caregivers as part of the care team", "Replacing family care", "Avoiding caregiver assessment"], correct: "Recognizing caregivers as part of the care team" },
-
   { q: "When care exceeds family ability, the nurse should:", options: ["Criticize the family", "Discuss community resources and assisted living", "Force continued care", "Ignore the issue"], correct: "Discuss community resources and assisted living" },
-
   { q: "Caregiver education includes:", options: ["Medication teaching only", "Disease process, safety, and self-care strategies", "Only nursing home information", "Excluding caregivers from teaching"], correct: "Disease process, safety, and self-care strategies" },
-
   { q: "The holistic caregiving approach considers:", options: ["Physical needs only", "Physical, emotional, social, cultural, and spiritual needs", "Medication management only", "Caregiver needs only"], correct: "Physical, emotional, social, cultural, and spiritual needs" }
 ],
   lecture5: [
   { q: "When communicating with a hearing-impaired elderly person, you should first:", options: ["Speak loudly from behind the person", "Approach from the front and get the person's attention", "Use written notes only", "Speak to a family member instead"], correct: "Approach from the front and get the person's attention" },
-
   { q: "When speaking with a hearing-impaired older adult who uses a hearing aid, you should:", options: ["Remove the hearing aid before speaking", "Ensure the hearing aid is in place and functioning", "Raise your voice as much as possible", "Avoid eye contact"], correct: "Ensure the hearing aid is in place and functioning" },
-
   { q: "The best position for communicating with a hearing-impaired person is:", options: ["Behind the person", "At face level on the side of the good ear", "Standing at a distance", "Speaking over the shoulder"], correct: "At face level on the side of the good ear" },
-
   { q: "Why should hands be kept away from the face while talking to a hearing-impaired person?", options: ["It looks professional", "It allows lip reading and visual cues", "It reduces noise", "It is a cultural requirement"], correct: "It allows lip reading and visual cues" },
-
   { q: "Eating or chewing while speaking should be avoided because:", options: ["It is impolite", "It distorts mouth movements and speech understanding", "It increases background noise", "It is prohibited"], correct: "It distorts mouth movements and speech understanding" },
-
   { q: "Background noise when communicating with hearing-impaired elders should be:", options: ["Increased", "Reduced or eliminated", "Maintained moderately", "Ignored"], correct: "Reduced or eliminated" },
-
   { q: "The correct speaking approach with hearing-impaired elderly persons is to:", options: ["Yell clearly", "Speak slowly and clearly with normal tone", "Use only sign language", "Whisper softly"], correct: "Speak slowly and clearly with normal tone" },
-
   { q: "When communicating with a visually impaired elderly person, you should:", options: ["Enter quietly", "Identify yourself by name each time", "Avoid verbal communication", "Use written materials only"], correct: "Identify yourself by name each time" },
-
   { q: "When guiding a visually impaired elderly person, the nurse should:", options: ["Push the person forward", "Offer your arm and describe the environment", "Walk behind the person", "Tell them to find their own way"], correct: "Offer your arm and describe the environment" },
-
   { q: "Environmental modifications for visually impaired elderly patients include:", options: ["Dim lighting", "Good lighting and organized environments", "Removing all furniture", "Very small print materials"], correct: "Good lighting and organized environments" },
-
   { q: "When communicating with a patient with aphasia, the nurse should:", options: ["Finish their sentences", "Speak slowly and allow time for responses", "Speak only to family", "Avoid communication"], correct: "Speak slowly and allow time for responses" },
-
   { q: "Which communication aid may help a person with severe speech impairment?", options: ["Loud music", "Picture boards or electronic devices", "Complex documents", "Television"], correct: "Picture boards or electronic devices" },
-
   { q: "When communicating with a cognitively impaired elderly person, you should:", options: ["Use complex instructions", "Use short simple sentences calmly", "Discuss only complex topics", "Avoid verbal communication"], correct: "Use short simple sentences calmly" },
-
   { q: "Calling elderly patients by name:", options: ["Is unnecessary", "Shows respect and gains attention", "May confuse patients", "Should be avoided"], correct: "Shows respect and gains attention" },
-
   { q: "The BEST approach for someone with both hearing and vision impairment is:", options: ["Yell and use small print", "Use tactile cues and assistive devices", "Communicate only through family", "Avoid communication"], correct: "Use tactile cues and assistive devices" },
-
   { q: "Maintaining eye contact helps to:", options: ["Intimidate patients", "Convey attention and support lip reading", "Distract patients", "Replace verbal communication"], correct: "Convey attention and support lip reading" },
-
   { q: "When caring for elderly people with low literacy, nurses should:", options: ["Use medical terminology", "Use simple language and visual aids", "Provide lengthy written instructions", "Assume understanding"], correct: "Use simple language and visual aids" },
-
   { q: "Smiling while communicating with elderly patients:", options: ["Is unprofessional", "Promotes trust and reassurance", "Should be avoided", "Confuses hearing-impaired patients"], correct: "Promotes trust and reassurance" },
-
   { q: "Which statement about communication with elderly patients is TRUE?", options: ["All elderly communicate the same", "Communication strategies should be individualized", "Physical impairments do not affect communication", "Patients with cognitive impairment cannot benefit"], correct: "Communication strategies should be individualized" },
-
   { q: "For effective communication, the nurse should:", options: ["Stand far away", "Be at eye level and speak clearly", "Speak quickly", "Always use jargon"], correct: "Be at eye level and speak clearly" },
-
   { q: "When an elderly patient cannot hear well, the nurse should first:", options: ["Repeat loudly", "Check if hearing aids are functioning", "Assume uncooperativeness", "Send written notes only"], correct: "Check if hearing aids are functioning" },
-
   { q: "Which behavior should nurses avoid with hearing-impaired elders?", options: ["Speaking face-to-face", "Eye contact", "Shouting and exaggerating mouth movements", "Reducing background noise"], correct: "Shouting and exaggerating mouth movements" },
-
   { q: "Writing key words on paper is useful when:", options: ["The patient refuses hearing aids", "Communication is complex or difficult", "The nurse is in a hurry", "No other methods are attempted"], correct: "Communication is complex or difficult" },
-
   { q: "Non-verbal communication techniques include:", options: ["Avoiding touch", "Using gestures and facial expressions", "Using only verbal communication", "Aggressive pointing"], correct: "Using gestures and facial expressions" },
-
   { q: "Large-print materials help visually impaired elderly patients because:", options: ["They reduce information", "They improve reading ability", "They are faster to produce", "They have no benefit"], correct: "They improve reading ability" },
-
   { q: "When talking with cognitively impaired patients, the nurse should:", options: ["Rush conversations", "Use repetition and simple directions", "Avoid communication", "Use technical language"], correct: "Use repetition and simple directions" },
-
   { q: "Touch can be therapeutic when it:", options: ["Is unexpected and forceful", "Provides reassurance and comfort", "Replaces verbal communication completely", "Confuses patients"], correct: "Provides reassurance and comfort" },
-
   { q: "Hearing loss may cause elderly patients to:", options: ["Withdraw socially", "Improve communication", "Become more active socially", "Ignore conversations intentionally"], correct: "Withdraw socially" },
-
   { q: "The nurse should face the light when speaking because:", options: ["It improves lip reading", "It hides facial expressions", "It increases noise", "It prevents eye contact"], correct: "It improves lip reading" },
-
   { q: "Short simple instructions are useful because they:", options: ["Increase confusion", "Improve understanding", "Reduce respect", "Are unnecessary"], correct: "Improve understanding" },
-
   { q: "Communication barriers in older adults may result from:", options: ["Sensory impairments", "Perfect health", "Improved cognition", "Increased mobility"], correct: "Sensory impairments" },
-
   { q: "Which action improves communication with visually impaired patients?", options: ["Moving furniture often", "Keeping objects in consistent locations", "Using dim lighting", "Avoiding descriptions"], correct: "Keeping objects in consistent locations" },
-
   { q: "An elderly patient repeatedly saying 'What?' may indicate:", options: ["Hearing impairment", "Aggression", "Good concentration", "Visual loss only"], correct: "Hearing impairment" },
-
   { q: "The nurse should avoid infantilizing elderly patients because it:", options: ["Promotes dignity", "Reduces self-esteem and respect", "Improves communication", "Has no effect"], correct: "Reduces self-esteem and respect" },
-
   { q: "Visual aids in communication may include:", options: ["Tiny print instructions", "Pictures and demonstration", "Medical abbreviations", "Fast speech"], correct: "Pictures and demonstration" },
-
   { q: "A calm environment during communication helps to:", options: ["Increase distraction", "Improve focus and understanding", "Reduce interaction", "Create confusion"], correct: "Improve focus and understanding" },
-
   { q: "Which patient is most likely to benefit from communication boards?", options: ["Aphasic patients", "Patients with perfect speech", "Patients with no impairments", "Only visually impaired patients"], correct: "Aphasic patients" },
-
   { q: "When speaking to elderly patients, the nurse should:", options: ["Talk rapidly", "Pause between ideas", "Use slang", "Avoid repetition"], correct: "Pause between ideas" },
-
   { q: "Communication failure may lead to:", options: ["Medication errors and frustration", "Improved care", "Reduced stress", "Enhanced safety"], correct: "Medication errors and frustration" },
-
   { q: "Older adults with dementia communicate best when:", options: ["Given one instruction at a time", "Given many instructions at once", "Ignored during care", "Exposed to loud environments"], correct: "Given one instruction at a time" },
-
   { q: "Respectful communication includes:", options: ["Ignoring preferences", "Listening actively to concerns", "Interrupting often", "Speaking only to caregivers"], correct: "Listening actively to concerns" },
-
   { q: "A hearing-impaired patient says 'Never mind' frequently because:", options: ["They understand perfectly", "They may feel frustrated or embarrassed", "They are aggressive", "They have visual impairment"], correct: "They may feel frustrated or embarrassed" },
-
   { q: "The best pace of speech for elderly communication is:", options: ["Very fast", "Moderate and clear", "Whispering", "Extremely loud"], correct: "Moderate and clear" },
-
   { q: "Communication with confused patients should focus on:", options: ["Reality orientation and reassurance", "Punishment", "Long lectures", "Complex discussions"], correct: "Reality orientation and reassurance" },
-
   { q: "Environmental distractions should be minimized because they:", options: ["Improve concentration", "Interfere with understanding", "Enhance hearing", "Improve cognition"], correct: "Interfere with understanding" },
-
   { q: "Older adults may hide hearing loss because of:", options: ["Pride or embarrassment", "Improved hearing", "Lack of symptoms", "Visual impairment"], correct: "Pride or embarrassment" },
-
   { q: "The nurse should verify understanding by:", options: ["Assuming the patient understood", "Asking the patient to repeat information", "Ending the conversation quickly", "Speaking louder"], correct: "Asking the patient to repeat information" },
-
   { q: "Using the patient's preferred language when possible:", options: ["Increases confusion", "Improves communication and comfort", "Is unnecessary", "Reduces trust"], correct: "Improves communication and comfort" },
-
   { q: "An important principle of elderly communication is:", options: ["Patience and respect", "Rushing tasks", "Using childish language", "Ignoring sensory deficits"], correct: "Patience and respect" },
-
   { q: "The overall goal of communication strategies is to:", options: ["Increase dependency", "Promote understanding, dignity, and safe care", "Reduce interaction", "Avoid patient participation"], correct: "Promote understanding, dignity, and safe care" }
 ],
   lecture6: [
   { q: "What is elder abuse?", options: ["Normal aging behavior", "Any intentional act causing harm or risk to an older adult", "Financial planning assistance", "Routine nursing care"], correct: "Any intentional act causing harm or risk to an older adult" },
-
   { q: "Which type of elder abuse involves hitting or pushing?", options: ["Emotional abuse", "Financial abuse", "Physical abuse", "Neglect"], correct: "Physical abuse" },
-
   { q: "Verbal threats and humiliation are examples of:", options: ["Physical abuse", "Psychological or emotional abuse", "Financial exploitation", "Self-neglect"], correct: "Psychological or emotional abuse" },
-
   { q: "Financial elder abuse includes:", options: ["Medication administration", "Unauthorized use of money or property", "Providing emotional support", "Helping with transportation"], correct: "Unauthorized use of money or property" },
-
   { q: "Neglect occurs when:", options: ["Older adults refuse care", "Caregivers fail to provide basic needs", "Patients manage finances independently", "Family members visit regularly"], correct: "Caregivers fail to provide basic needs" },
-
   { q: "Self-neglect refers to:", options: ["Intentional abuse by family", "Failure of older adults to care for themselves adequately", "Financial exploitation", "Physical violence"], correct: "Failure of older adults to care for themselves adequately" },
-
   { q: "Which older adults are at higher risk for abuse?", options: ["Independent healthy elders", "Socially isolated and cognitively impaired elders", "Elders with strong support systems", "Professionally employed elders"], correct: "Socially isolated and cognitively impaired elders" },
-
   { q: "A common sign of physical abuse is:", options: ["Improved hygiene", "Unexplained bruises or fractures", "Weight gain", "Frequent social activity"], correct: "Unexplained bruises or fractures" },
-
   { q: "Signs of neglect include:", options: ["Clean clothing and nutrition", "Malnutrition, dehydration, and poor hygiene", "Frequent medical follow-up", "Good medication adherence"], correct: "Malnutrition, dehydration, and poor hygiene" },
-
   { q: "Fearfulness around caregivers may indicate:", options: ["Healthy attachment", "Possible abuse", "Good communication", "Normal aging"], correct: "Possible abuse" },
-
   { q: "The nurse's priority when abuse is suspected is to:", options: ["Ignore the signs", "Ensure patient safety and assess the situation", "Immediately discharge the patient", "Argue with the caregiver"], correct: "Ensure patient safety and assess the situation" },
-
   { q: "Mandatory reporting laws require healthcare workers to:", options: ["Keep abuse secret", "Report suspected abuse to authorities", "Only document physical injuries", "Avoid involving social services"], correct: "Report suspected abuse to authorities" },
-
   { q: "Why are older adults often reluctant to report abuse?", options: ["They do not recognize abuse", "Fear, shame, or dependence on the abuser", "They enjoy abuse", "They lack communication ability only"], correct: "Fear, shame, or dependence on the abuser" },
-
   { q: "Caregiver stress may contribute to:", options: ["Improved care", "Risk of elder abuse", "Better communication", "Reduced burnout"], correct: "Risk of elder abuse" },
-
   { q: "The BEST way to interview a suspected abuse victim is:", options: ["In front of the caregiver", "Privately in a calm environment", "With family members answering", "Quickly without details"], correct: "Privately in a calm environment" },
-
   { q: "Documentation of suspected abuse should be:", options: ["Vague and brief", "Objective and detailed", "Based on assumptions", "Avoided"], correct: "Objective and detailed" },
-
   { q: "Sexual abuse of elders includes:", options: ["Verbal criticism only", "Any non-consensual sexual contact", "Financial fraud", "Medication misuse"], correct: "Any non-consensual sexual contact" },
-
   { q: "Which professional may assist with elder abuse cases?", options: ["Only physicians", "Social workers and legal authorities", "Teachers only", "Financial advisors only"], correct: "Social workers and legal authorities" },
-
   { q: "Emotional abuse may cause:", options: ["Improved self-esteem", "Depression and withdrawal", "Weight gain only", "Increased confidence"], correct: "Depression and withdrawal" },
-
   { q: "Isolation from friends and family may be a sign of:", options: ["Healthy independence", "Possible abuse or control", "Improved coping", "Normal communication"], correct: "Possible abuse or control" },
-
   { q: "Pressure ulcers in neglected patients may result from:", options: ["Excellent care", "Failure to reposition and provide hygiene", "Regular mobility", "Adequate nutrition"], correct: "Failure to reposition and provide hygiene" },
-
   { q: "Which statement about elder abuse is TRUE?", options: ["It occurs only in nursing homes", "It can happen in any setting", "It affects only women", "It is always reported"], correct: "It can happen in any setting" },
-
   { q: "A major barrier to identifying elder abuse is:", options: ["Too many reports", "Underreporting and hidden signs", "Excessive caregiver cooperation", "Easy diagnosis"], correct: "Underreporting and hidden signs" },
-
   { q: "Financial exploitation may include:", options: ["Helping with shopping", "Forgery or theft of money", "Medication reminders", "Providing transportation"], correct: "Forgery or theft of money" },
-
   { q: "The nurse should suspect abuse when injuries:", options: ["Match the explanation", "Are inconsistent with the explanation given", "Occur after surgery", "Are documented properly"], correct: "Are inconsistent with the explanation given" },
-
   { q: "Physical restraints used improperly may be considered:", options: ["Routine care", "Physical abuse", "Therapeutic communication", "Neglect only"], correct: "Physical abuse" },
-
   { q: "Caregiver substance abuse increases the risk of:", options: ["Improved caregiving", "Elder abuse and neglect", "Better communication", "Enhanced safety"], correct: "Elder abuse and neglect" },
-
   { q: "An elderly patient with sudden withdrawal and fear may be experiencing:", options: ["Improved coping", "Possible emotional abuse", "Normal aging", "Good family support"], correct: "Possible emotional abuse" },
-
   { q: "Which older adult is MOST vulnerable to abuse?", options: ["Independent elder with social support", "Bedridden elder with dementia", "Healthy active elder", "Professionally employed elder"], correct: "Bedridden elder with dementia" },
-
   { q: "Neglect may lead to:", options: ["Improved health", "Malnutrition and infections", "Better mobility", "Enhanced cognition"], correct: "Malnutrition and infections" },
-
   { q: "Bruises in different healing stages may indicate:", options: ["Normal aging only", "Repeated physical abuse", "Excellent care", "Medication compliance"], correct: "Repeated physical abuse" },
-
   { q: "The nurse should maintain what attitude when assessing abuse?", options: ["Judgmental", "Objective and supportive", "Aggressive", "Dismissive"], correct: "Objective and supportive" },
-
   { q: "Which behavior by a caregiver is concerning?", options: ["Answering every question for the patient", "Encouraging independence", "Providing support", "Asking for education"], correct: "Answering every question for the patient" },
-
   { q: "Elder abuse may cause:", options: ["Improved confidence", "Depression, anxiety, and fear", "Better socialization", "Improved mobility"], correct: "Depression, anxiety, and fear" },
-
   { q: "Financial abuse can result in:", options: ["Increased savings", "Loss of housing or medications", "Improved security", "Better nutrition"], correct: "Loss of housing or medications" },
-
   { q: "A neglected elder may appear:", options: ["Well groomed", "Dirty and dehydrated", "Overly energetic", "Well nourished"], correct: "Dirty and dehydrated" },
-
   { q: "Family stress related to caregiving may:", options: ["Always improve relationships", "Increase risk of mistreatment", "Eliminate conflict", "Prevent burnout"], correct: "Increase risk of mistreatment" },
-
   { q: "When abuse is suspected, nurses should:", options: ["Promise complete secrecy", "Follow legal reporting procedures", "Ignore unclear signs", "Confront aggressively"], correct: "Follow legal reporting procedures" },
-
   { q: "Older adults with cognitive impairment may:", options: ["Easily report abuse", "Have difficulty describing abuse", "Never experience abuse", "Always exaggerate symptoms"], correct: "Have difficulty describing abuse" },
-
   { q: "Burns or rope marks may indicate:", options: ["Normal aging", "Physical abuse", "Healthy skin changes", "Medication side effects"], correct: "Physical abuse" },
-
   { q: "An important nursing role in abuse prevention is:", options: ["Ignoring caregiver stress", "Educating families and caregivers", "Avoiding assessments", "Providing financial advice only"], correct: "Educating families and caregivers" },
-
   { q: "Social isolation increases abuse risk because:", options: ["There is less outside observation and support", "Families provide more support", "Healthcare access improves", "Communication increases"], correct: "There is less outside observation and support" },
-
   { q: "The nurse should document:", options: ["Only assumptions", "Exact patient statements and findings", "Personal opinions", "Caregiver excuses only"], correct: "Exact patient statements and findings" },
-
   { q: "Fear of nursing home placement may cause elders to:", options: ["Report abuse immediately", "Hide abuse", "Improve communication", "Seek legal help quickly"], correct: "Hide abuse" },
-
   { q: "Emotional abuse may include:", options: ["Insults and intimidation", "Medication teaching", "Financial planning", "Exercise support"], correct: "Insults and intimidation" },
-
   { q: "Which factor protects against elder abuse?", options: ["Isolation", "Strong support systems", "Cognitive decline", "Caregiver burnout"], correct: "Strong support systems" },
-
   { q: "The nurse should ensure privacy during abuse assessment to:", options: ["Reduce communication", "Encourage honest disclosure", "Save time", "Avoid documentation"], correct: "Encourage honest disclosure" },
-
   { q: "Abandonment of an older adult is considered:", options: ["Neglect", "Normal caregiving", "Health promotion", "Emotional support"], correct: "Neglect" },
-
   { q: "Older adults dependent on others for ADLs are:", options: ["At lower abuse risk", "At increased abuse risk", "Always protected", "Independent from caregivers"], correct: "At increased abuse risk" },
-
   { q: "The overall goal in managing elder abuse is to:", options: ["Punish families only", "Ensure safety, dignity, and well-being", "Increase institutionalization", "Avoid reporting"], correct: "Ensure safety, dignity, and well-being" }
 ],
   lecture7: [
   { q: "What is dementia?", options: ["A normal part of aging", "A syndrome involving decline in memory and cognitive function", "A temporary infection", "A hearing disorder"], correct: "A syndrome involving decline in memory and cognitive function" },
-
-  { q: "The most common type of dementia is:", options: ["Vascular dementia", "Lewy body dementia", "Alzheimer’s disease", "Frontotemporal dementia"], correct: "Alzheimer’s disease" },
-
+  { q: "The most common type of dementia is:", options: ["Vascular dementia", "Lewy body dementia", "Alzheimer's disease", "Frontotemporal dementia"], correct: "Alzheimer's disease" },
   { q: "A major symptom of dementia is:", options: ["Improved memory", "Progressive memory loss", "Enhanced concentration", "Increased reaction speed"], correct: "Progressive memory loss" },
-
   { q: "Which cognitive function is commonly affected first in dementia?", options: ["Long-term memory", "Recent memory", "Balance", "Vision"], correct: "Recent memory" },
-
-  { q: "Alzheimer’s disease is characterized by:", options: ["Sudden onset and recovery", "Progressive decline in cognitive abilities", "Improved communication", "Temporary confusion only"], correct: "Progressive decline in cognitive abilities" },
-
+  { q: "Alzheimer's disease is characterized by:", options: ["Sudden onset and recovery", "Progressive decline in cognitive abilities", "Improved communication", "Temporary confusion only"], correct: "Progressive decline in cognitive abilities" },
   { q: "Vascular dementia is commonly associated with:", options: ["Head trauma", "Reduced blood flow to the brain", "Eye disorders", "Hearing impairment"], correct: "Reduced blood flow to the brain" },
-
   { q: "A patient with dementia may experience:", options: ["Improved orientation", "Disorientation to time and place", "Enhanced judgment", "Perfect memory"], correct: "Disorientation to time and place" },
-
   { q: "The nurse should communicate with dementia patients by:", options: ["Using long complex sentences", "Speaking calmly with simple instructions", "Arguing about incorrect statements", "Ignoring repeated questions"], correct: "Speaking calmly with simple instructions" },
-
   { q: "Which behavior is common in dementia?", options: ["Aggression or wandering", "Improved reasoning", "Enhanced concentration", "No personality changes"], correct: "Aggression or wandering" },
-
   { q: "Wandering in dementia patients increases risk of:", options: ["Improved independence", "Injury and getting lost", "Better exercise tolerance", "Enhanced cognition"], correct: "Injury and getting lost" },
-
   { q: "A safe environment for dementia patients should include:", options: ["Locked dark rooms", "Clear pathways and supervision", "Sharp objects within reach", "Loud background noise"], correct: "Clear pathways and supervision" },
-
   { q: "Reorientation techniques may include:", options: ["Using clocks and calendars", "Avoiding communication", "Changing routines constantly", "Keeping rooms dark"], correct: "Using clocks and calendars" },
-
   { q: "Which statement about dementia is TRUE?", options: ["It is a normal aging change", "It always develops suddenly", "It affects cognitive and functional abilities", "It only affects memory"], correct: "It affects cognitive and functional abilities" },
-
-  { q: "Activities for dementia patients should:", options: ["Be overly difficult", "Match the patient’s abilities and interests", "Be avoided completely", "Require multitasking"], correct: "Match the patient’s abilities and interests" },
-
+  { q: "Activities for dementia patients should:", options: ["Be overly difficult", "Match the patient's abilities and interests", "Be avoided completely", "Require multitasking"], correct: "Match the patient's abilities and interests" },
   { q: "Which factor may worsen confusion in dementia?", options: ["Calm environment", "Changes in routine and overstimulation", "Regular orientation", "Family support"], correct: "Changes in routine and overstimulation" },
-
   { q: "Sundowning refers to:", options: ["Morning confusion", "Increased confusion and agitation in the evening", "Improved nighttime behavior", "A sleep disorder unrelated to dementia"], correct: "Increased confusion and agitation in the evening" },
-
   { q: "The goal of dementia care is to:", options: ["Cure dementia completely", "Promote safety, dignity, and quality of life", "Increase dependence", "Prevent all memory loss"], correct: "Promote safety, dignity, and quality of life" },
-
   { q: "Family members caring for dementia patients often need:", options: ["No support", "Education and emotional support", "Only medication training", "Institutionalization immediately"], correct: "Education and emotional support" },
-
   { q: "A dementia patient repeatedly asking the same question should be met with:", options: ["Anger", "Patience and calm responses", "Punishment", "Ignoring the patient"], correct: "Patience and calm responses" },
-
   { q: "Which nursing intervention helps reduce agitation?", options: ["Frequent room changes", "Maintaining a consistent routine", "Loud television", "Complex instructions"], correct: "Maintaining a consistent routine" },
-
   { q: "Loss of judgment in dementia may lead to:", options: ["Safer decisions", "Unsafe behaviors", "Improved planning", "Better financial management"], correct: "Unsafe behaviors" },
-
   { q: "Dementia differs from delirium because dementia is usually:", options: ["Sudden and reversible", "Gradual and progressive", "Caused by fever only", "Always temporary"], correct: "Gradual and progressive" },
-
   { q: "A patient with advanced dementia may require assistance with:", options: ["Only finances", "Activities of daily living", "Reading only", "No assistance"], correct: "Activities of daily living" },
-
   { q: "Which non-pharmacological method may calm dementia patients?", options: ["Arguing with them", "Music and familiar activities", "Isolation", "Bright flashing lights"], correct: "Music and familiar activities" },
-
   { q: "Caregiver stress in dementia care may result from:", options: ["Short caregiving periods", "Behavioral and cognitive changes in the patient", "Improved independence", "Easy communication"], correct: "Behavioral and cognitive changes in the patient" },
-
   { q: "A patient forgetting familiar names may indicate:", options: ["Normal hydration", "Cognitive decline", "Improved memory", "Enhanced concentration"], correct: "Cognitive decline" },
-
   { q: "Repeated wandering may require:", options: ["No intervention", "Safety alarms and supervision", "Punishment", "Isolation"], correct: "Safety alarms and supervision" },
-
   { q: "Which stage of dementia often includes severe dependence?", options: ["Early stage", "Mild stage", "Advanced stage", "Recovery stage"], correct: "Advanced stage" },
-
   { q: "Patients with dementia may have difficulty with:", options: ["Recognition and communication", "Only walking", "Only hearing", "Only vision"], correct: "Recognition and communication" },
-
   { q: "A calm tone of voice is important because it:", options: ["Confuses the patient", "Reduces anxiety and agitation", "Has no effect", "Increases aggression"], correct: "Reduces anxiety and agitation" },
-
   { q: "The BEST routine for dementia patients is:", options: ["Frequent unpredictable changes", "Structured and familiar routines", "Constant stimulation", "Isolation"], correct: "Structured and familiar routines" },
-
   { q: "Which symptom may appear in late dementia?", options: ["Complete independence", "Difficulty swallowing", "Improved speech", "Enhanced memory"], correct: "Difficulty swallowing" },
-
   { q: "Confabulation means:", options: ["Intentional lying", "Filling memory gaps with made-up stories", "Aggressive behavior", "Loss of hearing"], correct: "Filling memory gaps with made-up stories" },
-
   { q: "A dementia patient becoming suspicious of caregivers may indicate:", options: ["Paranoia related to cognitive decline", "Improved judgment", "Better memory", "Normal orientation"], correct: "Paranoia related to cognitive decline" },
-
-  { q: "The nurse should avoid:", options: ["Simple explanations", "Arguing with the patient’s reality", "Calm reassurance", "Consistent routines"], correct: "Arguing with the patient’s reality" },
-
+  { q: "The nurse should avoid:", options: ["Simple explanations", "Arguing with the patient's reality", "Calm reassurance", "Consistent routines"], correct: "Arguing with the patient's reality" },
   { q: "A memory aid for dementia patients includes:", options: ["Dark rooms", "Labels and reminder notes", "Loud music", "Complex schedules"], correct: "Labels and reminder notes" },
-
   { q: "Depression in dementia patients may:", options: ["Improve cognition", "Worsen confusion and withdrawal", "Increase appetite only", "Prevent memory loss"], correct: "Worsen confusion and withdrawal" },
-
   { q: "The Mini-Mental State Examination (MMSE) assesses:", options: ["Vision only", "Cognitive status", "Hearing ability", "Mobility"], correct: "Cognitive status" },
-
   { q: "Dementia patients should be encouraged to:", options: ["Remain inactive", "Participate in safe self-care activities", "Avoid all interaction", "Depend completely on caregivers"], correct: "Participate in safe self-care activities" },
-
   { q: "Which symptom is NOT typical of early dementia?", options: ["Forgetfulness", "Disorientation", "Improved memory", "Difficulty finding words"], correct: "Improved memory" },
-
   { q: "Nutrition problems in dementia may occur because of:", options: ["Difficulty recognizing food or swallowing", "Improved appetite", "Enhanced independence", "Improved chewing"], correct: "Difficulty recognizing food or swallowing" },
-
   { q: "A patient becoming lost in familiar places may indicate:", options: ["Improved orientation", "Progression of dementia", "Normal aging only", "Improved memory"], correct: "Progression of dementia" },
-
   { q: "Safety precautions in dementia care include:", options: ["Leaving doors unlocked", "Removing hazards and supervising activities", "Encouraging wandering", "Keeping sharp objects nearby"], correct: "Removing hazards and supervising activities" },
-
   { q: "A major goal of family education is to:", options: ["Cure dementia", "Help families manage symptoms and stress", "Avoid communication", "Promote isolation"], correct: "Help families manage symptoms and stress" },
-
-  { q: "Which statement about Alzheimer’s disease is TRUE?", options: ["It is reversible", "It progressively worsens over time", "It only affects mobility", "It improves with age"], correct: "It progressively worsens over time" },
-
+  { q: "Which statement about Alzheimer's disease is TRUE?", options: ["It is reversible", "It progressively worsens over time", "It only affects mobility", "It improves with age"], correct: "It progressively worsens over time" },
   { q: "Reality orientation therapy focuses on:", options: ["Increasing confusion", "Reinforcing awareness of time, place, and person", "Medication management only", "Restricting communication"], correct: "Reinforcing awareness of time, place, and person" },
-
   { q: "Caregiver burnout is common because dementia care is often:", options: ["Short and simple", "Long-term and emotionally demanding", "Easy to manage", "Temporary"], correct: "Long-term and emotionally demanding" },
-
   { q: "The nurse should encourage dementia caregivers to:", options: ["Ignore stress", "Use support groups and respite care", "Avoid outside help", "Work continuously"], correct: "Use support groups and respite care" },
-
   { q: "Hallucinations in dementia patients should be managed by:", options: ["Arguing aggressively", "Providing reassurance and assessing triggers", "Ignoring safety", "Punishing the patient"], correct: "Providing reassurance and assessing triggers" },
-
   { q: "End-stage dementia patients may lose the ability to:", options: ["Walk and communicate", "Breathe independently", "Sleep", "Hear sounds"], correct: "Walk and communicate" }
 ]
 };
 
 let answeredCount = 0;
 let correctCount = 0;
+let totalQuestions = 0;
 
 function updateMeter() {
-  document.getElementById("answered").textContent = "Answered: " + answeredCount;
-  document.getElementById("correct").textContent = "Correct: " + correctCount;
+  document.getElementById("answered").textContent = answeredCount;
+  document.getElementById("correct").textContent = correctCount;
+  const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+  document.getElementById("accuracy").textContent = accuracy + "%";
+
+  // Update progress bar
+  const progress = totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0;
+  document.getElementById("progressBar").style.width = progress + "%";
 }
 
 function shuffleArray(array) {
@@ -777,41 +1078,70 @@ function shuffleArray(array) {
   }
 }
 
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.exam-section').forEach(sec => sec.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  btn.classList.add('active');
+function startExam(tabId, cardElement) {
+  // Hide module selection, show exam section
+  document.getElementById('moduleSelect').style.display = 'none';
+  document.querySelector('.subtitle').style.display = 'none';
+  document.getElementById('statsDisplay').style.display = 'flex';
+
+  // Reset stats
   answeredCount = 0;
   correctCount = 0;
-  updateMeter();
+
+  // Mark active card
+  document.querySelectorAll('.module-card').forEach(c => c.classList.remove('active'));
+  cardElement.classList.add('active');
+
+  // Show exam section
+  document.querySelectorAll('.exam-section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+
   renderQuestions(tabId);
+}
+
+function goBack() {
+  document.getElementById('moduleSelect').style.display = 'flex';
+  document.querySelector('.subtitle').style.display = 'block';
+  document.getElementById('statsDisplay').style.display = 'none';
+  document.getElementById('progressBar').style.width = '0%';
+
+  document.querySelectorAll('.exam-section').forEach(sec => sec.classList.remove('active'));
+  document.querySelectorAll('.module-card').forEach(c => c.classList.remove('active'));
 }
 
 function renderQuestions(tabId) {
   const section = document.getElementById(tabId);
   section.innerHTML = "";
+
+  // Add back button
+  const backBtn = document.createElement("button");
+  backBtn.className = "back-btn";
+  backBtn.innerHTML = "&#8249; RETURN TO MODULES";
+  backBtn.onclick = goBack;
+  section.appendChild(backBtn);
+
   let questions = [...examData[tabId]];
   shuffleArray(questions);
+  totalQuestions = questions.length;
+  updateMeter();
 
   questions.forEach((item, index) => {
     const card = document.createElement("div");
     card.className = "question-card";
 
-    // Sequential counter before question
     const counter = document.createElement("div");
-    counter.style.fontWeight = "bold";
-    counter.style.marginBottom = "5px";
-    counter.textContent = (index + 1) + ".";
+    counter.className = "question-counter";
+    counter.textContent = "QUESTION " + (index + 1) + " / " + totalQuestions;
     card.appendChild(counter);
 
-    // Question text
     const qText = document.createElement("div");
     qText.className = "question-text";
     qText.textContent = item.q;
     card.appendChild(qText);
 
-    // Shuffle options
+    const optionsGrid = document.createElement("div");
+    optionsGrid.className = "options-grid";
+
     let options = [...item.options];
     shuffleArray(options);
 
@@ -821,7 +1151,7 @@ function renderQuestions(tabId) {
       optDiv.textContent = opt;
 
       optDiv.onclick = () => {
-        const allOptions = card.querySelectorAll(".option");
+        const allOptions = optionsGrid.querySelectorAll(".option");
         allOptions.forEach(o => o.style.pointerEvents = "none");
         answeredCount++;
         if (opt === item.correct) {
@@ -838,15 +1168,13 @@ function renderQuestions(tabId) {
         updateMeter();
       };
 
-      card.appendChild(optDiv);
+      optionsGrid.appendChild(optDiv);
     });
 
+    card.appendChild(optionsGrid);
     section.appendChild(card);
   });
 }
-
-// Render Lecture 1 by default
-renderQuestions('lecture1');
 </script>
 </body>
 </html>
